@@ -49,7 +49,7 @@ int main()
 				strcat(a, "0");
 
 		// Tính toán
-		int s[10000] = {0};
+		int s[1000] = {0};
 		int remainder = 0;
 		int index = 0;
 		for (int i = 0; i < strlen(a); i++)
