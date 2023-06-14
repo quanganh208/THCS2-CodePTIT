@@ -1,66 +1,74 @@
-#include<stdio.h>
-#include<string.h>
+#include <stdio.h>
+#include <string.h>
 
-int main () {
+void strRev(char a[1000])
+{
+	char b[1000];
+	strcpy(b, a);
+	for (int i = 0; i < strlen(a); i++)
+		a[i] = b[strlen(b) - 1 - i];
+}
+
+void swap(char a[1000], char b[1000])
+{
+	char tmp[1000];
+	strcpy(tmp, a);
+	strcpy(a, b);
+	strcpy(b, tmp);
+}
+int main()
+{
 	int t;
-	scanf ("%d", &t);
-	while (t--) {
-		scanf (" ");
-		char a0[10000], b0[10000], a[10000]={}, b[10000]={};
-		int s[10000]={0};
-		gets (a0);
-		for (int i=0; i<strlen(a0); i++) {
-			a[i] = a0[strlen(a0)-1-i];
-		}
-		scanf (" ");
-		gets (b0);
-		for (int i=0; i<strlen(b0); i++) {
-			b[i] = b0[strlen(b0)-1-i];
-		}
-		int kt = 1;
-		if (strlen(a0) == strlen(b0))
-			for (int i=0; i<strlen(a0); i++)
-				if (a0[i] - b0[i] < 0) {
-					kt = 0;
+	scanf("%d\n", &t);
+	while (t--)
+	{
+		char a[1000], b[1000];
+		gets(a);
+		scanf("\n");
+		gets(b);
+		// Kiểm tra số nào lớn hơn
+		if (strlen(a) < strlen(b))
+			swap(a, b);
+		else if (strlen(a) == strlen(b))
+			for (int i = 0; i < strlen(a); i++)
+				if (a[i] != b[i])
+				{
+					if (a[i] < b[i])
+						swap(a, b);
 					break;
-				}	
-		int max = 0, nho = 0;
-		if (strlen(a) > strlen(b) || (kt == 1 && strlen(a) == strlen(b))) {
-			for (int i=strlen(b); i<strlen(a); i++) {
-				strcat (b, "0");
+				}
+		// Đảo ngược chuỗi
+		strRev(a);
+		strRev(b);
+		// Bù 0
+		if (strlen(a) > strlen(b))
+			while (strlen(a) > strlen(b))
+				strcat(b, "0");
+		if (strlen(a) < strlen(b))
+			while (strlen(a) < strlen(b))
+				strcat(a, "0");
+
+		// Tính toán
+		int s[10000] = {0};
+		int remainder = 0;
+		int index = 0;
+		for (int i = 0; i < strlen(a); i++)
+		{
+			s[i] = (a[i] - '0') - (b[i] - '0') - remainder;
+			remainder = 0;
+			if (s[i] < 0)
+			{
+				remainder = 1;
+				s[i] += 10;
 			}
-			for (int i=0; i<strlen(a); i++) {
-				s[i] = a[i] - b[i] - nho;
-				nho = 0;
-				if (s[i] < 0) {
-					nho = 1;
-					s[i] += 10;
-				}	
-				if (s[i] != 0)	max = i;
-			}
-			for (int i=max; i>=0; i--) {
-				printf ("%d", s[i]);
-			}
-			printf ("\n");
+			index++;
 		}
-		else if (strlen(b) > strlen(a) || kt == 0) {
-			for (int i=strlen(a); i<strlen(b); i++) {
-				strcat (a, "0");
-			}
-			for (int i=0; i<strlen(b); i++) {
-				s[i] = b[i] - a[i] - nho;
-				nho = 0;
-				if (s[i] < 0) {
-					nho = 1;
-					s[i] += 10;
-				}	
-				if (s[i] != 0)	max = i;
-			}
-			for (int i=max; i>=0; i--) {
-				printf ("%d", s[i]);
-			}
-			printf ("\n");
-		}
- 	}
+		// In kết quả
+		while (!s[index])
+			index--;
+		for (int i = index; i >= 0; i--)
+			printf("%d", s[i]);
+		printf("\n");
+	}
 	return 0;
 }
