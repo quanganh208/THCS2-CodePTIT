@@ -43,6 +43,7 @@ int main()
             remainder = x / 10;
             s[i] = x % 10;
         }
+        // In kết quả
         for (int i = strlen(a) - 1; i >= 0; i--)
         {
             if (i == strlen(a) - 1 && s[i] == 0)
